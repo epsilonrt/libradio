@@ -1,0 +1,69 @@
+The ax25 test is in progress on /dev/ttyUSB1 (baud=2400).
+Press CTRL+C to quit
+
+Send frame #00001 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00001: SolarPi (~) APRS http://www.btssn.net FAF4 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00001: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00001: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00002 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00002: SolarPi (~) APRS http://www.btssn.net 925F 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00002: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00002: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00003 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00003: SolarPi (~) APRS http://www.btssn.net 45C1 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00003: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00003: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00004 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00004: SolarPi (~) APRS http://www.btssn.net 5301 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00004: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00004: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00005 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00005: SolarPi (~) APRS http://www.btssn.net 849F 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00005: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00005: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00006 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00006: SolarPi (~) APRS http://www.btssn.net EC34 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00006: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00006: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00007 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00007: SolarPi (~) APRS http://www.btssn.net 3BAA 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00007: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00007: SolarPi (~) APRS http://www.btssn.net
+
+Send frame #00008 (size 51)
+INFO: >7E A8989A626060-60 9C9E86829898-60 A88AA6A84040-E1 03 F0 >Test 00008: SolarPi (~) APRS http://www.btssn.net D1BC 7E
+INFO: Frame found!
+INFO: SRC[NOCALL-0], DST[TLM100-0]
+INFO: RPT0[TEST-0]*
+INFO: DATA: >Test 00008: SolarPi (~) APRS http://www.btssn.net
+NOCALL>TLM100,TEST*:>Test 00008: SolarPi (~) APRS http://www.btssn.net
+^C
+/dev/ttyUSB1 closed.
+Have a nice day !
