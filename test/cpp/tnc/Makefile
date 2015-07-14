@@ -5,7 +5,7 @@
 ###############################################################################
 
 # Nom du fichier cible (sans extension).
-TARGET = test_tnc_cpp
+TARGET = radio_test_cpp_tnc
 
 # Chemin relatif du répertoire racine du projet de l'utilisateur
 PROJECT_TOPDIR = .
