@@ -4,7 +4,7 @@
 # This software is governed by the CeCILL license <http://www.cecill.info>    #
 ###############################################################################
 
-SUBDIRS = serial pipe
+SUBDIRS = pipe serial
 
 all: $(SUBDIRS)
 rebuild: $(SUBDIRS)

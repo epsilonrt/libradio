@@ -16,9 +16,16 @@ __BEGIN_C_DECLS
 /* ========================================================================== */
 #include <stdio.h>
 
-/*
- * TNC Frame format:
- *  SOH STX <TXT: ASCII Hex bytes> ETX CRC3..0 EOT
+/**
+ *  @addtogroup radio_ax25
+ *  @{
+ *  @defgroup radio_ax25_tnc Contrôleur de noeud terminal Ax25
+ *
+ *  Ce module fournit les fonctions permettant de transmettre de gérer
+ *  des contrôleur de noeud terminal Ax25. \n
+ *  Le format des trames TNC est : \n
+ *  @code SOH STX <TXT: ASCII Hex bytes> ETX CRC3..0 EOT @endcode
+ *  @{
  */
 
 /* constants ================================================================ */
@@ -128,9 +135,14 @@ int iTncPoll(xTnc *tnc);
 ssize_t iTncWrite (xTnc *tnc, const void *buf, size_t count);
 
 /**
- * Retruns the last error code.
+ * Returns the last error code.
  */
 int iTncError (xTnc *tnc);
+
+/**
+ *  @}
+ * @}
+ */
 
 /* ========================================================================== */
 __END_C_DECLS

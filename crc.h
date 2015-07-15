@@ -40,6 +40,13 @@
 __BEGIN_C_DECLS
 /* ========================================================================== */
 
+/**
+ *  @addtogroup radio
+ *  @{
+ *  @defgroup radio_crc CRC
+ *  @{
+ */
+
 /* constants ================================================================ */
 /** CRC-CCITT init value */
 #define CRC_CCITT_INIT_VAL ((uint16_t)0xFFFF)
@@ -69,6 +76,10 @@ INLINE uint16_t
 
   return (oldcrc >> 8) ^ usCrcCcittTab[(oldcrc ^ c) & 0xff];
 }
+/**
+ *  @}
+ * @}
+ */
 
 /* ========================================================================== */
 __END_C_DECLS

@@ -16,6 +16,19 @@ __BEGIN_C_DECLS
 /* ========================================================================== */
 #include <stdio.h>
 
+/**
+ *  @defgroup radio Liaisons Radioamateur
+ *
+ *  Ce module fournit les fonctions permettant de transmettre des informations
+ *  sur des liaisons radioamateur.
+ *  @{
+ *  @defgroup radio_ax25 Liaisons Ax25
+ *
+ *  Ce module fournit les fonctions permettant de transmettre des informations
+ *  sur des liaisons Ax25.
+ *  @{
+ */
+
 /* constants ================================================================ */
 /**
  * Maximum number of Repeaters in a AX25 message.
@@ -368,6 +381,10 @@ int iAx25Read (xAx25 *ax25, xAx25Frame *frame);
  * Retruns the last error code.
  */
 int iAx25Error (xAx25 *ax25);
+/**
+ *  @}
+ * @}
+ */
 
 /* ========================================================================== */
 __END_C_DECLS

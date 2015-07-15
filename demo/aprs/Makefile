@@ -141,8 +141,9 @@ COPY = cp
 #-------------------------------------------------------------------------------
 # !!!!!!!!!!!!!!!!!         DO NOT EDIT BELOW THIS LINE        !!!!!!!!!!!!!!!!!
 #-------------------------------------------------------------------------------
-CDEFS += -D_REENTRANT
-CPPDEFS += -D_REENTRANT
+CDEFS += -D_REENTRANT -D$(ARCH)
+CPPDEFS += -D_REENTRANT -D$(ARCH)
+
 EXTRA_LIBS += pthread rt
 LDFLAGS += -pthread
 
