@@ -10,6 +10,10 @@ TARGET = radio_test_ax25_serial
 # Chemin relatif du répertoire racine du projet de l'utilisateur
 PROJECT_TOPDIR = .
 
+# Architecture du système cible
+ARCH = ARCH_ARM_RASPBERRYPI
+#ARCH = ARCH_GENERIC_LINUX
+
 # Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
 GIT_VERSION = OFF
 
@@ -115,9 +119,10 @@ VERSION=1.0.0
 # Si défini sur ON, la cible n'est pas liée à la lib sysio et les sources
 # de SysIO sont recompilées. SYSIO_ROOT et ARCH doivent être définis 
 #SYSIO_DEBUG_TEST = ON
-SYSIO_ROOT = ../..
-ARCH = ARCH_ARM_RASPBERRYPI
-#ARCH = ARCH_GENERIC_LINUX
+
+ifeq ($(SYSIO_ROOT),)
+SYSIO_ROOT = $(PROJECT_TOPDIR)/../sysio
+endif
 #-----------------------------------------------
 
 #-------------------------------------------------------------------------------
