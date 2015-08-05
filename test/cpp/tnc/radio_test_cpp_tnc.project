@@ -29,7 +29,6 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="radio_test_cpp_tnc">
-    <File Name="Makefile"/>
     <File Name="radio_test_cpp_tnc.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
