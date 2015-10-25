@@ -146,6 +146,22 @@ COPY = cp
 #-------------------------------------------------------------------------------
 # !!!!!!!!!!!!!!!!!         DO NOT EDIT BELOW THIS LINE        !!!!!!!!!!!!!!!!!
 #-------------------------------------------------------------------------------
+RPI_CPU=$(shell $(SYSIO_ROOT)/util/bin/rpi-cpu)
+RPI_REV=$(shell $(SYSIO_ROOT)/util/bin/rpi-rev)
+#$(warning $(RPI_CPU))
+#$(warning $(RPI_REV))
+
+ifneq ($(RPI_CPU),)
+override ARCH = ARCH_ARM_RASPBERRYPI
+CDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
+CPPDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
+else
+ifeq ($(ARCH),ARCH_ARM_RASPBERRYPI)
+override ARCH = ARCH_GENERIC_LINUX
+$(warning this system is not a Raspberry Pi, I compile for linux standard system)
+endif
+endif
+
 CDEFS += -D_REENTRANT -D$(ARCH)
 CPPDEFS += -D_REENTRANT -D$(ARCH)
 
