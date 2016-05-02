@@ -2,8 +2,7 @@
  * @file sysio/src/ax25.c
  * @brief Couche liaison du protocole AX.25 (Implémentation C)
  *
- * Copyright © 2015 Pascal JEAN aka epsilonRT <pascal.jean--AT--btssn.net>
- * All rights reserved.
+ * Copyright © 2015 epsilonRT, All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  */
 #include <string.h>
@@ -650,7 +649,7 @@ iAx25SetFdout (xAx25 *p, int fd) {
  *
  * Copyright 2009 Develer S.r.l. (http://www.develer.com/)
  * @author Francesco Sacchi <batt@develer.com>
- * Modified by Pascal JEAN <pjean@btssn.net>
+ * Modified by epsilonRT
  */
 /* constants ================================================================ */
 /*

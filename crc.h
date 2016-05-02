@@ -2,7 +2,7 @@
  * @file sysio/crc.h
  * @brief Calcul de CRC
  * 
- * Copyright © 2015 Pascal JEAN aka epsilonRT <pascal.jean--AT--btssn.net>
+ * Copyright © 2015 epsilonRT, All rights reserved.
  * All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  * -----------------------------------------------------------------------------

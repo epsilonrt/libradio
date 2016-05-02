@@ -2,8 +2,7 @@
  * @file sysio++/src/ax25-wrapper.cpp
  * @brief Couche liaison du protocole AX.25 (Wrapper C++)
  * 
- * Copyright © 2015 Pascal JEAN aka epsilonRT <pascal.jean--AT--btssn.net>
- * All rights reserved.
+ * Copyright © 2015 epsilonRT, All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  */
 #include <radio/ax25.hpp>

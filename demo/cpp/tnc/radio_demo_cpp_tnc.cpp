@@ -6,8 +6,7 @@
  * - Envoi périodique d'une trame APRS vers un TNC sur une liaison série
  * - Affichage des trames APRS/SSDV reçues par le TNC
  * 
- * Copyright © 2015 Pascal JEAN aka epsilonRT <pascal.jean--AT--btssn.net>
- * All rights reserved.
+ * Copyright © 2015 epsilonRT, All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  */
 #include <stdio.h>
