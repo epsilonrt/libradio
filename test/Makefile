@@ -15,7 +15,7 @@ elf: $(SUBDIRS)
 lss: $(SUBDIRS)
 sym: $(SUBDIRS)
 
-.PHONY: all clean distclean rebuild elf lss sym $(SUBDIRS)
+.PHONY: all clean distclean rebuild install uninstall elf lss sym $(SUBDIRS)
 
 $(SUBDIRS):
 	$(MAKE) -w -C $@ $(MAKECMDGOALS)
