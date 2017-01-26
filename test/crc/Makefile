@@ -10,8 +10,8 @@ TARGET = radio_test_crc
 PROJECT_TOPDIR = .
 
 # Architecture du système cible
-ARCH = ARCH_ARM_RASPBERRYPI
-#ARCH = ARCH_GENERIC_LINUX
+#ARCH = ARCH_ARM_RASPBERRYPI
+#ARCH = ARCH_ARM_NANOPINEO
 
 # Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
 GIT_VERSION = OFF
@@ -145,21 +145,52 @@ COPY = cp
 #-------------------------------------------------------------------------------
 # !!!!!!!!!!!!!!!!!         DO NOT EDIT BELOW THIS LINE        !!!!!!!!!!!!!!!!!
 #-------------------------------------------------------------------------------
-RPI_CPU=$(shell $(SYSIO_ROOT)/util/bin/rpi-cpu)
-RPI_REV=$(shell $(SYSIO_ROOT)/util/bin/rpi-rev)
+$(info Check the target platform, you can use ARCH to force the target...)
+
+HARDWARE_CPU=$(shell hardware-cpu)
+#$(warning '$(HARDWARE_CPU)')
+
+ifneq ($(findstring bcm27,$(HARDWARE_CPU)),)
+# Raspberry Pi -----------------------------------------------------------------
+
+RPI_CPU=$(shell rpi-cpu)
+RPI_REV=$(shell rpi-rev)
 #$(warning $(RPI_CPU))
 #$(warning $(RPI_REV))
 
-ifneq ($(RPI_CPU),)
+$(info Build for Raspberry Pi target !)
 override ARCH = ARCH_ARM_RASPBERRYPI
 CDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
 CPPDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
+
 else
-ifeq ($(ARCH),ARCH_ARM_RASPBERRYPI)
+# Not Raspberry Pi  ------------------------------------------------------------
+
+ifneq ($(findstring sun8i,$(HARDWARE_CPU)),)
+# Allwinner sunxi  -------------------------------------------------------------
+
+SUNXI_BOARD=$(shell sunxi-board)
+#$(warning '$(SUNXI_BOARD)')
+
+ifeq ($(SUNXI_BOARD),nanopineo)
+# NanoPi Neo  ------------------------------------------------------------------
+$(info Build for NanoPi Neo target !)
+override ARCH = ARCH_ARM_NANOPINEO
+# NanoPi Neo  ------------------------------------------------------------------
+endif
+
+# Allwinner sunxi  -------------------------------------------------------------
+endif
+
+# Not Raspberry Pi  ------------------------------------------------------------
+endif
+
+ifeq ($(ARCH),)
+$(info ARCH not defined, Build for linux standard system...)
 override ARCH = ARCH_GENERIC_LINUX
-$(warning this system is not a Raspberry Pi, I compile for linux standard system)
 endif
-endif
+
+#$(warning '$(ARCH)')
 
 CDEFS += -D_REENTRANT -D$(ARCH)
 CPPDEFS += -D_REENTRANT -D$(ARCH)
