@@ -11,7 +11,7 @@ PROJECT_TOPDIR = .
 
 # Architecture du système cible
 #ARCH = ARCH_ARM_RASPBERRYPI
-#ARCH = ARCH_ARM_NANOPINEO
+#ARCH = ARCH_ARM_NANOPI
 
 # Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
 GIT_VERSION = OFF
@@ -175,7 +175,7 @@ SUNXI_BOARD=$(shell sunxi-board)
 ifeq ($(SUNXI_BOARD),nanopineo)
 # NanoPi Neo  ------------------------------------------------------------------
 $(info Build for NanoPi Neo target !)
-override ARCH = ARCH_ARM_NANOPINEO
+override ARCH = ARCH_ARM_NANOPI
 # NanoPi Neo  ------------------------------------------------------------------
 endif
 
