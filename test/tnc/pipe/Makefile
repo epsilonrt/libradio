@@ -10,8 +10,8 @@ TARGET = radio_test_tnc_pipe
 PROJECT_TOPDIR = .
 
 # Architecture du système cible
-#ARCH = ARCH_ARM_RASPBERRYPI
-#ARCH = ARCH_ARM_NANOPI
+#BOARD = BOARD_RASPBERRYPI
+#BOARD = BOARD_NANOPI
 
 # Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
 GIT_VERSION = OFF
