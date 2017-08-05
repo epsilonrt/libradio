@@ -9,9 +9,8 @@ TARGET = radio_test_cpp_ax25
 # Chemin relatif du répertoire racine du projet de l'utilisateur
 PROJECT_TOPDIR = .
 
-# Architecture du système cible
-#ARCH = ARCH_ARM_RASPBERRYPI
-#ARCH = ARCH_ARM_NANOPI
+# Choix de l'architecture matérielle du système
+#BOARD = BOARD_GENERIC_LINUX
 
 # Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
 GIT_VERSION = OFF
@@ -116,7 +115,7 @@ VERSION=1.0.0
 #---------------- SysIO Options ----------------
 # Active le debug d'un test SysIO (ON/OFF)
 # Si défini sur ON, la cible n'est pas liée à la lib sysio et les sources
-# de SysIO sont recompilées. SYSIO_ROOT et ARCH doivent être définis
+# de SysIO sont recompilées. SYSIO_ROOT doit être défini
 #SYSIO_DEBUG_TEST = ON
 
 ifeq ($(SYSIO_ROOT),)
@@ -145,12 +144,12 @@ COPY = cp
 #-------------------------------------------------------------------------------
 # !!!!!!!!!!!!!!!!!         DO NOT EDIT BELOW THIS LINE        !!!!!!!!!!!!!!!!!
 #-------------------------------------------------------------------------------
-$(info Check the target platform, you can use ARCH to force the target...)
+$(info Check the target platform, you can use BOARD to force the target...)
 
 HARDWARE_CPU=$(shell hardware-cpu)
 #$(warning '$(HARDWARE_CPU)')
 
-ifneq ($(findstring bcm27,$(HARDWARE_CPU)),)
+ifeq ($(HARDWARE_CPU),$(filter $(HARDWARE_CPU),bcm2708 bcm2835 bcm2709 bcm2836 bcm2710 bcm2837))
 # Raspberry Pi -----------------------------------------------------------------
 
 RPI_CPU=$(shell rpi-cpu)
@@ -159,7 +158,7 @@ RPI_REV=$(shell rpi-rev)
 #$(warning $(RPI_REV))
 
 $(info Build for Raspberry Pi target !)
-override ARCH = ARCH_ARM_RASPBERRYPI
+override BOARD = BOARD_RASPBERRYPI
 CDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
 CPPDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
 
@@ -169,14 +168,29 @@ else
 ifneq ($(findstring sun8i,$(HARDWARE_CPU)),)
 # Allwinner sunxi  -------------------------------------------------------------
 
-SUNXI_BOARD=$(shell sunxi-board)
-#$(warning '$(SUNXI_BOARD)')
+ARMBIAN_BOARD=$(shell armbian-board)
+#$(warning '$(ARMBIAN_BOARD)')
 
-ifeq ($(SUNXI_BOARD),nanopineo)
+ifeq ($(ARMBIAN_BOARD),nanopineo)
 # NanoPi Neo  ------------------------------------------------------------------
 $(info Build for NanoPi Neo target !)
-override ARCH = ARCH_ARM_NANOPI
+override BOARD = BOARD_NANOPI_NEO
 # NanoPi Neo  ------------------------------------------------------------------
+else
+ifeq ($(ARMBIAN_BOARD),nanopiair)
+# NanoPi Neo  ------------------------------------------------------------------
+$(info Build for NanoPi Neo Air target !)
+override BOARD = BOARD_NANOPI_AIR
+# NanoPi Neo  ------------------------------------------------------------------
+else
+ifeq ($(ARMBIAN_BOARD),nanopim1)
+# NanoPi Neo  ------------------------------------------------------------------
+$(info Build for NanoPi M1 target !)
+override BOARD = BOARD_NANOPI_M1
+# NanoPi Neo  ------------------------------------------------------------------
+else
+endif
+endif
 endif
 
 # Allwinner sunxi  -------------------------------------------------------------
@@ -185,15 +199,20 @@ endif
 # Not Raspberry Pi  ------------------------------------------------------------
 endif
 
-ifeq ($(ARCH),)
-$(info ARCH not defined, Build for linux standard system...)
-override ARCH = ARCH_GENERIC_LINUX
+ifeq ($(BOARD),)
+$(info BOARD not defined, Build for linux standard system...)
+override BOARD = BOARD_GENERIC_LINUX
 endif
 
-#$(warning '$(ARCH)')
+#$(warning '$(BOARD)')
 
-CDEFS += -D_REENTRANT -D$(ARCH)
-CPPDEFS += -D_REENTRANT -D$(ARCH)
+CDEFS += -D_REENTRANT -D$(BOARD)
+CPPDEFS += -D_REENTRANT -D$(BOARD)
+
+SYS_HAS_GPS_H=$(shell test-header gps.h)
+ifeq ($(SYS_HAS_GPS_H),ON)
+EXTRA_LIBS += gps
+endif
 
 EXTRA_LIBS += pthread rt stdc++
 LDFLAGS += -pthread
