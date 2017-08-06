@@ -149,6 +149,9 @@ $(info Check the target platform, you can use BOARD to force the target...)
 HARDWARE_CPU=$(shell hardware-cpu)
 #$(warning '$(HARDWARE_CPU)')
 
+ifneq ($(HARDWARE_CPU),)
+# Hardware found in /proc/cpuinfo ----------------------------------------------
+
 ifeq ($(HARDWARE_CPU),$(filter $(HARDWARE_CPU),bcm2708 bcm2835 bcm2709 bcm2836 bcm2710 bcm2837))
 # Raspberry Pi -----------------------------------------------------------------
 
@@ -178,17 +181,18 @@ override BOARD = BOARD_NANOPI_NEO
 # NanoPi Neo  ------------------------------------------------------------------
 else
 ifeq ($(ARMBIAN_BOARD),nanopiair)
-# NanoPi Neo  ------------------------------------------------------------------
+# NanoPi Neo Air  --------------------------------------------------------------
 $(info Build for NanoPi Neo Air target !)
 override BOARD = BOARD_NANOPI_AIR
-# NanoPi Neo  ------------------------------------------------------------------
+# NanoPi Neo Air  --------------------------------------------------------------
 else
 ifeq ($(ARMBIAN_BOARD),nanopim1)
-# NanoPi Neo  ------------------------------------------------------------------
+# NanoPi M1  -------------------------------------------------------------------
 $(info Build for NanoPi M1 target !)
 override BOARD = BOARD_NANOPI_M1
-# NanoPi Neo  ------------------------------------------------------------------
+# NanoPi M1  -------------------------------------------------------------------
 else
+# Other ArmBian boards  --------------------------------------------------------
 endif
 endif
 endif
@@ -197,6 +201,9 @@ endif
 endif
 
 # Not Raspberry Pi  ------------------------------------------------------------
+endif
+
+# Hardware found in /proc/cpuinfo ----------------------------------------------
 endif
 
 ifeq ($(BOARD),)
