@@ -17,7 +17,7 @@
 #include <sys/time.h>
 
 #include <radio/ax25.hpp>
-#include <sysio/serial.hpp>
+#include <sysiopp/serial.hpp>
 
 /* constants ================================================================ */
 #define BAUDRATE 2400

@@ -16,7 +16,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <radio/tnc.hpp>
-#include <sysio/serial.hpp>
+#include <sysiopp/serial.hpp>
 
 /* constants ================================================================ */
 #define BAUDRATE 38400
