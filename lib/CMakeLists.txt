@@ -23,6 +23,7 @@ set(hdr_public ${hdr_radio} ${hdr_radio_cpp} ${CMAKE_CURRENT_BINARY_DIR}/config.
 set (libsrc ${src_radio} ${src_radio_cpp})
 
 include_directories(
+  ${PROJECT_SOURCE_DIR}/3rdparty/ssdv/include
   ${SYSIO_INC_DIR} 
   ${RADIO_INC_DIR} 
   ${RADIO_SRC_DIR}
@@ -118,9 +119,6 @@ endif(SYSIO_WITH_STATIC)
 
 
 ## pkg-config ------------------------------------------------------------------
-
-set (RADIO_LDFLAGS_OTHER "")
-set (RADIO_CPPFLAGS_OTHER "")
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/radio.pc.in
   ${CMAKE_CURRENT_BINARY_DIR}/radio.pc @ONLY)

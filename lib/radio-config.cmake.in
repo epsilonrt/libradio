@@ -7,7 +7,7 @@
 #  RADIO_INCLUDE_DIRS - include directories for radio
 #  RADIO_LIBRARY_DIRS - where to find libraries
 #  RADIO_LIBRARIES    - libraries to link against
-#  RADIO_CPPFLAGS_OTHER       - all required cppflags
+#  RADIO_CFLAGS_OTHER       - all required cppflags
 
 find_package(sysio REQUIRED)
 find_package(ssdv REQUIRED)
@@ -24,5 +24,5 @@ include("${RADIO_CMAKE_DIR}/radio.cmake")
 # These are IMPORTED targets created by sysio.cmake
 set(RADIO_LIBRARIES radio ${SYSIO_LIBRARIES} ${SSDV_LIBRARIES})
 
-set(RADIO_CPPFLAGS_OTHER "${SYSIO_CFLAGS_OTHER}")
+set(RADIO_CFLAGS_OTHER "${SYSIO_CFLAGS_OTHER}")
 set(CMAKE_MODULE_PATH "${RADIO_CMAKE_DIR}" "${SYSIO_CMAKE_DIR}")

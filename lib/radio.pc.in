@@ -3,8 +3,8 @@ exec_prefix=${prefix}
 bindir=@INSTALL_BIN_DIR@
 libdir=@INSTALL_LIB_DIR@
 includedir=@INSTALL_INCLUDE_DIR@
-ldflags_other=@RADIO_LDFLAGS_OTHER@
-cflags_other=@RADIO_CPPFLAGS_OTHER@
+ldflags_other=@RADIO_LDFLAGS_PKGCONFIG@
+cflags_other=@RADIO_CFLAGS_PKGCONFIG@
 
 Name: radio
 Description: Radio ham library
