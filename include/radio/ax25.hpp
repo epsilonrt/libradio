@@ -1,5 +1,5 @@
 /**
- * @file sysio++/ax25.hpp
+ * @file ax25.hpp
  * @brief Couche liaison du protocole AX.25 (C++).
  * 
  * Copyright © 2015 epsilonRT, All rights reserved.

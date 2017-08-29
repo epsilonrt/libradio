@@ -1,5 +1,5 @@
 /**
- * @file sysio++/src/ax25-wrapper.cpp
+ * @file src/ax25-wrapper.cpp
  * @brief Couche liaison du protocole AX.25 (Wrapper C++)
  * 
  * Copyright © 2015 epsilonRT, All rights reserved.

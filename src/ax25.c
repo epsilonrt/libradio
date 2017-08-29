@@ -1,5 +1,5 @@
 /**
- * @file sysio/src/ax25.c
+ * @file src/ax25.c
  * @brief Couche liaison du protocole AX.25 (Implémentation C)
  *
  * Copyright © 2015 epsilonRT, All rights reserved.

@@ -1,5 +1,5 @@
 /**
- * @file sysio/crc.h
+ * @file crc.h
  * @brief Calcul de CRC
  * 
  * Copyright © 2015 epsilonRT, All rights reserved.

@@ -1,5 +1,5 @@
 /**
- * @file sysio++/src/tnc.cpp
+ * @file src/tnc.cpp
  * @brief Terminal Node Controller (Wrapper C++)
  *
  * Copyright © 2015 epsilonRT, All rights reserved.

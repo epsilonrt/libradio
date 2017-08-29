@@ -1,5 +1,5 @@
 /**
- * @file sysio/src/tnc.c
+ * @file src/tnc.c
  * @brief Terminal Node Controller (Implémentation C)
  *
  * Copyright © 2015 epsilonRT, All rights reserved.

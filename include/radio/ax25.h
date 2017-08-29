@@ -1,5 +1,5 @@
 /**
- * @file sysio/ax25.h
+ * @file ax25.h
  * @brief Couche liaison du protocole AX.25
  * 
  * Copyright © 2015 epsilonRT, All rights reserved.

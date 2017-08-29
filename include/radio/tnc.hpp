@@ -1,5 +1,5 @@
 /**
- * @file sysio++/tnc.hpp
+ * @file tnc.hpp
  * @brief Terminal Node Controller (C++)
  * 
  * Copyright © 2015 epsilonRT, All rights reserved.
