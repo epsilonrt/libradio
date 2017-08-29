@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CodeLite_Project Name="radio_demo" InternalType="">
+<CodeLite_Project Name="radio_demo" InternalType="" Version="10.0.0">
   <Plugins>
     <Plugin Name="qmake">
       <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
@@ -119,13 +119,6 @@
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="demo">
-    <File Name="radio_demo_tnc.c"/>
-    <File Name="CMakeLists.txt"/>
-    <File Name="radio_demo_aprs.c"/>
-    <File Name="radio_demo_cpp_ax25.cpp"/>
-    <File Name="radio_demo_cpp_tnc.cpp"/>
-  </VirtualDirectory>
   <Dependencies Name="Debug"/>
   <Dependencies Name="Release"/>
 </CodeLite_Project>
