@@ -9,12 +9,12 @@ project(radio_demo_tnc_cpp)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 # Set default locations
-set(CL_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../../cmake-build-Release/output)
+set(CL_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../cmake-build-Debug/output)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CL_OUTPUT_DIRECTORY})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CL_OUTPUT_DIRECTORY})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CL_OUTPUT_DIRECTORY})
 
-set(CONFIGURATION_NAME "Release")
+set(CONFIGURATION_NAME "Debug")
 
 # Projects
 
@@ -22,37 +22,27 @@ set(CONFIGURATION_NAME "Release")
 # Top project
 # Define some variables
 set(PROJECT_radio_demo_tnc_cpp_PATH "${CMAKE_CURRENT_LIST_DIR}")
-set(WORKSPACE_PATH "${CMAKE_CURRENT_LIST_DIR}/../..")
+set(WORKSPACE_PATH "${CMAKE_CURRENT_LIST_DIR}/..")
 
 
 
 #{{{{ User Code 1
 # Place your code here
 
-# --- SysIo Begin. Do not edit by hand -----------------------------------------
+# --- Radio Begin. Do not edit by hand -----------------------------------------
 # Modifies binary file paths if codelite is not used.
 if (NOT CL_USED)
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 endif (NOT CL_USED)
-# search for the sysio package, if found, add the options ...
-find_package(sysio QUIET)
-if (sysio_FOUND)
-  message (STATUS "SysIo found !")
-  link_directories(${SYSIO_LIBRARY_DIRS})
-  add_definitions(${SYSIO_CFLAGS})
-  include_directories(${SYSIO_INCLUDE_DIRS})
-  list(APPEND LINK_OPTIONS ${SYSIO_LIBRARIES})
-  include (PiBoardInfo)
-  if (NOT PIBOARD_ID)
-    message (STATUS "Check the target platform, you can use PIBOARD_ID to force the target...")
-    GetPiBoardInfo()
-  endif (NOT PIBOARD_ID)
-else (sysio_FOUND)
-  message (STATUS "<WARNING> SysIo not found !")
-endif (sysio_FOUND)
-# --- SysIo End. Do not edit by hand -------------------------------------------
+
+find_package(radio REQUIRED)
+link_directories(${RADIO_LIBRARY_DIRS})
+add_definitions(${RADIO_CFLAGS})
+include_directories(${RADIO_INCLUDE_DIRS})
+list(APPEND LINK_OPTIONS ${RADIO_LIBRARIES})
+# --- Radio End. Do not edit by hand -------------------------------------------
 #}}}}
 
 include_directories(
@@ -63,12 +53,9 @@ include_directories(
 
 
 # Compiler options
-add_definitions(-O2)
+add_definitions(-g)
+add_definitions(-O0)
 add_definitions(-Wall)
-add_definitions(
-    -DNDEBUG
-)
-
 
 # Linker options
 
@@ -80,14 +67,14 @@ endif(WIN32)
 # Library path
 set(CMAKE_LDFLAGS "${CMAKE_LDFLAGS} -L. ")
 
-# Define the C sources
-set ( C_SRCS
-    ${CMAKE_CURRENT_LIST_DIR}/radio_demo_tnc_cpp.c
+# Define the CXX sources
+set ( CXX_SRCS
+    ${CMAKE_CURRENT_LIST_DIR}/radio_demo_tnc_cpp.cpp
 )
 
 set_source_files_properties(
-    ${C_SRCS} PROPERTIES COMPILE_FLAGS 
-    " -O2 -Wall")
+    ${CXX_SRCS} PROPERTIES COMPILE_FLAGS 
+    " -g -O0 -Wall")
 
 if(WIN32)
     enable_language(RC)

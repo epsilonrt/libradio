@@ -2,7 +2,7 @@
  * @file demo_tnc.c
  * @brief TNC demo
  * Sends a binary packet to the TNC on the serial bus and waits an acknowledge
- * 
+ *
  * Copyright © 2015 epsilonRT, All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  */
@@ -46,10 +46,10 @@ vUsage (const char *myname) {
 static void
 vSigIntHandler (int sig) {
 
-  printf("\n%s closed.\nHave a nice day !\n", SERIAL_DEVICE);
+  printf ("\n%s closed.\nHave a nice day !\n", SERIAL_DEVICE);
   vTncDelete (tnc);
 
-  exit(EXIT_SUCCESS);
+  exit (EXIT_SUCCESS);
 }
 
 // ------------------------------------------------------------------------------
@@ -58,31 +58,40 @@ vSetup (int argc, char **argv) {
 
   if (argc == 1) {
 
-    fprintf(stderr, "Error: you must give at least the device name !\n");
-    vUsage(argv[0]);
+    fprintf (stderr, "Error: you must give at least the device name !\n");
+    vUsage (argv[0]);
     exit (EXIT_FAILURE);
   }
 
-  if ((iSerialFd = iSerialOpen (SERIAL_DEVICE, SERIAL_BAUDRATE)) < 0) {
+  xSerialIos xIosSet = { .baud = SERIAL_BAUDRATE,
+                         .dbits = SERIAL_DATABIT_8,
+                         .parity = SERIAL_PARITY_NONE,
+                         .sbits = SERIAL_STOPBIT_ONE,
+                         .flow = SERIAL_FLOW_NONE
+                       };
+
+  // Opens the serial port
+  if ( (iSerialFd = iSerialOpen (SERIAL_DEVICE, &xIosSet)) < 0) {
 
     perror ("iSerialOpen:");
     exit (EXIT_FAILURE);
   }
 
   // Installs the CTRL + C signal handler
-  signal(SIGINT, vSigIntHandler);
+  signal (SIGINT, vSigIntHandler);
 
 
   // Initialize the data tnc layer on the physical layer
-  if ( (tnc = xTncNew(TNC_RXBUFSIZE)) == NULL) {
+  if ( (tnc = xTncNew (TNC_RXBUFSIZE)) == NULL) {
 
     exit (EXIT_FAILURE);
   }
   iTncSetFdout (tnc, iSerialFd);
-  iTncSetFdin  (tnc, iSerialFd);
+  iTncSetFdin (tnc, iSerialFd);
 
-  for (int i = 0; i < TNC_TXBUFSIZE; i++)
+  for (int i = 0; i < TNC_TXBUFSIZE; i++) {
     msg[i] = i;
+  }
 }
 
 /* internal public functions ================================================ */
@@ -95,7 +104,7 @@ main (int argc, char **argv) {
 
   for (;;) {
 
-    i = iTncWrite (tnc, msg, sizeof(msg));
+    i = iTncWrite (tnc, msg, sizeof (msg));
     if (i < 0) {
 
       fprintf (stderr, "\niTncWrite Error: %d\n", i);
@@ -110,12 +119,14 @@ main (int argc, char **argv) {
       if (i == TNC_EOT) {
 
         printf ("Received %lu bytes: ", tnc->len);
-        for (int i = 0; i < tnc->len; i++)
+        for (int i = 0; i < tnc->len; i++) {
           printf ("%02X ", tnc->rxbuf[i]);
+        }
         putchar ('\n');
         break;
       }
-    } while (i >= 0);
+    }
+    while (i >= 0);
 
     if (i < 0) {
 

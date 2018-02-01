@@ -3,7 +3,7 @@
  * @brief APRS radio demo.
  *
  * This example shows how to read and decode APRS radio packets.
- * 
+ *
  * Copyright © 2015 epsilonRT, All rights reserved.
  * This software is governed by the CeCILL license <http://www.cecill.info>
  */
@@ -36,12 +36,12 @@ static int iSerialFd;
 static void
 vSigIntHandler (int sig) {
 
-  printf("\nserial port closed.\nHave a nice day !\n");
+  printf ("\nserial port closed.\nHave a nice day !\n");
   vAx25FrameDelete (xTxFrame);
   vAx25FrameDelete (xRxFrame);
   vAx25Delete (ax25);
   vSerialClose (iSerialFd);
-  exit(EXIT_SUCCESS);
+  exit (EXIT_SUCCESS);
 }
 
 // -----------------------------------------------------------------------------
@@ -53,7 +53,7 @@ vSigSendHandler (int sig) {
   size_t iInfoLen;
 
   snprintf (cInfo, 80, APRS_MSG, ++usFrameCounter);
-  iInfoLen = strlen(cInfo) + 1;
+  iInfoLen = strlen (cInfo) + 1;
   iAx25FrameSetInfo (xTxFrame, cInfo, iInfoLen);
 
   printf ("Send Frame: [%s]\n", xAx25FrameToStr (xTxFrame));
@@ -63,16 +63,23 @@ vSigSendHandler (int sig) {
 // ------------------------------------------------------------------------------
 static void
 vSetup (const char * cDev, int iBaudrate) {
+  xSerialIos xIosSet = { .dbits = SERIAL_DATABIT_8,
+                         .parity = SERIAL_PARITY_NONE,
+                         .sbits = SERIAL_STOPBIT_ONE,
+                         .flow = SERIAL_FLOW_NONE
+                       };
+
+  xIosSet.baud = iBaudrate;
 
   // Opens the serial port
-  if ((iSerialFd = iSerialOpen (cDev, iBaudrate)) < 0) {
+  if ( (iSerialFd = iSerialOpen (cDev, &xIosSet)) < 0) {
 
     perror ("iSerialOpen:");
     exit (EXIT_FAILURE);
   }
 
   // Installs the CTRL + C signal handler
-  signal(SIGINT, vSigIntHandler);
+  signal (SIGINT, vSigIntHandler);
 
   // Setup the rx frame
   xRxFrame = xAx25FrameNew();
@@ -91,11 +98,11 @@ vSetup (const char * cDev, int iBaudrate) {
 
   // Setup periodic alarm
   struct itimerval period = {
-      { TRANSMIT_PERIOD, 0, }, /* 1st signal in [s], [us] */
-      { TRANSMIT_PERIOD, 0, }, /* period time   [s], [us] */
+    { TRANSMIT_PERIOD, 0, }, /* 1st signal in [s], [us] */
+    { TRANSMIT_PERIOD, 0, }, /* period time   [s], [us] */
   };
-  signal(SIGALRM, vSigSendHandler);
-  setitimer(ITIMER_REAL, &period, NULL); /* start periodic SIGALRM signals */
+  signal (SIGALRM, vSigSendHandler);
+  setitimer (ITIMER_REAL, &period, NULL); /* start periodic SIGALRM signals */
 }
 
 /* internal public functions ================================================ */
@@ -106,13 +113,13 @@ main (int argc, char **argv) {
 
   if (argc < 2) {
 
-    printf("Usage: %s /dev/ttyAMA0 [baud]\n", argv[0]);
-    exit(EXIT_FAILURE);
+    printf ("Usage: %s /dev/ttyAMA0 [baud]\n", argv[0]);
+    exit (EXIT_FAILURE);
   }
   cDev = argv[1];
   if (argc > 2) {
 
-    iBaudrate = atoi(argv[2]);
+    iBaudrate = atoi (argv[2]);
   }
 
   vSetup (cDev, iBaudrate);
