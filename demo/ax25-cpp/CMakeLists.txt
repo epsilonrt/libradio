@@ -95,6 +95,6 @@ target_link_libraries(radio_demo_ax25_cpp ${LINK_OPTIONS})
 
 #{{{{ User Code 3
 # Place your code here
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+#install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 #}}}}
 
