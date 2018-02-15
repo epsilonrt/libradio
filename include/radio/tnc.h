@@ -11,7 +11,9 @@
 
 #include <sysio/defs.h>
 
-__BEGIN_C_DECLS
+#ifdef __cplusplus
+  extern "C" {
+#endif
 /* ========================================================================== */
 #include <stdio.h>
 
@@ -144,6 +146,8 @@ int iTncError (xTnc *tnc);
  */
 
 /* ========================================================================== */
-__END_C_DECLS
+#ifdef __cplusplus
+  }
+#endif
 
 #endif /* _SYSIO_TNC_H_ */

@@ -37,7 +37,9 @@
 
 #include <sysio/defs.h>
 
-__BEGIN_C_DECLS
+#ifdef __cplusplus
+  extern "C" {
+#endif
 /* ========================================================================== */
 
 /**
@@ -82,5 +84,7 @@ INLINE uint16_t
  */
 
 /* ========================================================================== */
-__END_C_DECLS
+#ifdef __cplusplus
+  }
+#endif
 #endif /* _SYSIO_CRC_H_ */
