@@ -40,7 +40,7 @@ endif (NOT CL_USED)
 find_package(radio REQUIRED)
 link_directories(${RADIO_LIBRARY_DIRS})
 add_definitions(${RADIO_CFLAGS})
-include_directories(${RADIO_INCLUDE_DIRS})
+include_directories(BEFORE ${RADIO_INCLUDE_DIRS})
 list(APPEND LINK_OPTIONS ${RADIO_LIBRARIES})
 # --- Radio End. Do not edit by hand -------------------------------------------
 #}}}}
