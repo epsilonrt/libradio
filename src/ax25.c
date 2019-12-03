@@ -1,9 +1,12 @@
 /**
- * @file src/ax25.c
+ * @file ax25.h
  * @brief Couche liaison du protocole AX.25 (Implémentation C)
- *
- * Copyright © 2015 epsilonRT, All rights reserved.
- * This software is governed by the CeCILL license <http://www.cecill.info>
+ * @author Pascal JEAN <pjean@btssn.net>
+ *          @copyright 2014 GNU Lesser General Public License version 3
+ *          <http://www.gnu.org/licenses/lgpl.html>
+ * @version $Id$
+ * Revision History ---
+ *    20120519 - Initial version
  */
 #include <string.h>
 #include <ctype.h>
@@ -15,13 +18,11 @@
 
 #include <radio/ax25.h>
 #include <radio/crc.h>
-#include <sysio/log.h>
+#include "config.h"
 
-/*
- * Enable access to the physical layer using streams
- * This option is not yet functional !
- */
-#define AX25_CFG_USE_STREAM 0
+#define LOG_LEVEL  AX25_LOG_LEVEL
+#define LOG_FORMAT AX25_LOG_FORMAT
+#include <radio/log.h>
 
 #if AX25_MAX_RPT > 8
 #error "AX25_MAX_RPT must be less than equal to 8."
@@ -58,11 +59,10 @@ static const char * cErrorMsg[] = {
 // -----------------------------------------------------------------------------
 static const char *
 prvcMsg (int iError) {
-  int iIndex = ABS (iError) - 1;
+  int iIndex = ABS(iError) - 1;
 
-  if ( (iIndex > 0) && (iIndex < COUNTOF (cErrorMsg))) {
+  if ((iIndex > 0) && (iIndex < COUNTOF(cErrorMsg)))
     return cErrorMsg[iIndex];
-  }
   return "";
 }
 
@@ -72,7 +72,7 @@ prviError (int iError) {
 
   if (iError < AX25_SUCCESS) {
 
-    PERROR ("%s", prvcMsg (iError));
+    LOG_ERR("%s", prvcMsg(iError));
   }
   return iError;
 }
@@ -93,9 +93,8 @@ xAx25NodeNew (void) {
   xAx25Node *n;
 
   n = malloc (sizeof (xAx25Node));
-  if (n) {
+  if (n)
     iAx25NodeClear (n);
-  }
   return n;
 }
 
@@ -157,9 +156,8 @@ xAx25NodeToStr (const xAx25Node *n) {
       *p = 0;
     }
   }
-  else {
+  else
     prviError (AX25_OBJECT_NOT_FOUND);
-  }
 
   return str;
 }
@@ -176,7 +174,7 @@ iAx25NodeFilePrint (const xAx25Node *p, FILE * f) {
       if (str) {
 
         fprintf (f, "%s", str);
-        free (str);
+        free(str);
         return AX25_SUCCESS;
       }
       return prviError (AX25_NOT_ENOUGH_MEMORY);
@@ -209,12 +207,12 @@ xAx25Frame *
 xAx25FrameNew (void) {
   xAx25Frame *p;
 
-  p = malloc (sizeof (xAx25Frame));
+  p = malloc (sizeof(xAx25Frame));
   if (p) {
 
     p->src = xAx25NodeNew();
     p->dst = xAx25NodeNew();
-    memset (p->repeaters, 0, sizeof (xAx25Node *) * AX25_MAX_RPT);
+    memset (p->repeaters, 0, sizeof(xAx25Node *) * AX25_MAX_RPT);
     p->repeaters_len = 0;
     iAx25FrameClear (p);
   }
@@ -228,9 +226,8 @@ vAx25FrameDelete (xAx25Frame *p) {
 
     vAx25NodeDelete (p->src);
     vAx25NodeDelete (p->dst);
-    for (int i = 0; i < p->repeaters_len; i++) {
+    for (int i = 0; i < p->repeaters_len; i++)
       vAx25NodeDelete (p->repeaters[i]);
-    }
   }
   free (p);
 }
@@ -326,12 +323,12 @@ iAx25FrameSetRepeaterFlag (xAx25Frame *p, uint8_t index, bool flag) {
 int
 iAx25FrameSetInfo (xAx25Frame *p, const void *info, size_t info_len) {
 
-  if ( (!p) || (!info)) {
+  if ((!p) || (!info)) {
 
     return prviError (AX25_OBJECT_NOT_FOUND);
   }
 
-  info_len =  MIN (info_len, AX25_FRAME_BUF_LEN);
+  info_len =  MIN(info_len, AX25_FRAME_BUF_LEN);
   memcpy (p->info, info, info_len);
   p->info_len = info_len;
   p->info[info_len] = 0; // prevents core dump
@@ -346,8 +343,8 @@ copyStrNode (char * dst, const xAx25Node *n) {
   str = xAx25NodeToStr (n);
   if (str) {
 
-    memcpy (dst, str, strlen (str));
-    dst += strlen (str);
+    memcpy (dst, str, strlen(str));
+    dst += strlen(str);
     free (str);
   }
   return dst;
@@ -381,9 +378,8 @@ xAx25FrameToStr (const xAx25Frame *f) {
       *p = 0;
     }
   }
-  else {
+  else
     prviError (AX25_OBJECT_NOT_FOUND);
-  }
 
   return str;
 }
@@ -400,7 +396,7 @@ iAx25FrameFilePrint (const xAx25Frame *p, FILE *f) {
       if (str) {
 
         fprintf (f, "%s", str);
-        free (str);
+        free(str);
         return AX25_SUCCESS;
       }
       return prviError (AX25_NOT_ENOUGH_MEMORY);
@@ -439,10 +435,10 @@ static int
 prvxOpenFile (int fd, int mode, int unused) {
   int flag;
 
-  if ( (flag = fcntl (fd, F_GETFL)) != -1) {
+  if ((flag = fcntl (fd, F_GETFL)) != -1) {
 
     flag &= O_ACCMODE;
-    if ( (flag != mode) && (flag != O_RDWR)) {
+    if ((flag != mode) && (flag != O_RDWR)) {
 
       fd = -1;
     }
@@ -481,16 +477,16 @@ prvxOpenFile (int fd, int mode, FILE *other) {
   if (other) {
     int fdo = fileno (other);
 
-    if ( (flag = fcntl (fdo, F_GETFL)) != -1) {
+    if ((flag = fcntl (fdo, F_GETFL)) != -1) {
 
       flag &= O_ACCMODE;
       if (fd == fdo) {
 
 
-        if ( (flag == mode) || (flag == O_RDWR)) {
+        if ((flag == mode) || (flag == O_RDWR)) {
 
           f = other;
-          PDEBUG ("f = other\n");
+          LOG_DEBUG("f = other\n");
         }
       }
     }
@@ -498,35 +494,35 @@ prvxOpenFile (int fd, int mode, FILE *other) {
 
   if (!f) {
 
-    if ( (flag = fcntl (fd, F_GETFL)) != -1) {
+    if ((flag = fcntl (fd, F_GETFL)) != -1) {
 
       flag &= O_ACCMODE;
-      if ( (flag == mode) || (flag == O_RDWR)) {
+      if ((flag == mode) || (flag == O_RDWR)) {
 
         if (flag ==  O_RDWR) {
 
           f = fdopen (fd, "w+");
-          PDEBUG ("f = fdopen (fd, \"w+\")\n");
+          LOG_DEBUG("f = fdopen (fd, \"w+\")\n");
         }
         else if (flag ==  O_WRONLY) {
 
           f = fdopen (fd, "w");
-          PDEBUG ("f = fdopen (fd, \"w\")\n");
+          LOG_DEBUG("f = fdopen (fd, \"w\")\n");
         }
         else {
 
           f = fdopen (fd, "r");
-          PDEBUG ("f = fdopen (fd, \"r\")\n");
+          LOG_DEBUG("f = fdopen (fd, \"r\")\n");
         }
       }
       else {
 
-        PWARNING ("The access mode of this file descriptor [%04X] is incompatible (%04X/%04X).\n", fd, flag, mode);
+        LOG_WARN ("The access mode of this file descriptor [%04X] is incompatible (%04X/%04X).\n", fd, flag, mode);
       }
     }
     else {
 
-      PWARNING ("[%04X] is not an open file descriptor.\n", fd);
+      LOG_WARN ("[%04X] is not an open file descriptor.\n", fd);
     }
   }
 
@@ -556,10 +552,9 @@ xAx25 *
 xAx25New (void) {
   xAx25 *p;
 
-  p = malloc (sizeof (xAx25));
-  if (p) {
+  p = malloc (sizeof(xAx25));
+  if (p)
     iAx25Clear (p);
-  }
   return p;
 }
 
@@ -592,7 +587,7 @@ iAx25Error (xAx25 *p) {
 
     return p->error;
   }
-  (void) prviError (AX25_OBJECT_NOT_FOUND);
+  (void)prviError (AX25_OBJECT_NOT_FOUND);
   return INT_MIN;
 }
 
@@ -649,7 +644,7 @@ iAx25SetFdout (xAx25 *p, int fd) {
  *
  * Copyright 2009 Develer S.r.l. (http://www.develer.com/)
  * @author Francesco Sacchi <batt@develer.com>
- * Modified by epsilonRT
+ * Modified by Pascal JEAN <pjean@btssn.net>
  */
 /* constants ================================================================ */
 /*
@@ -666,51 +661,51 @@ iAx25SetFdout (xAx25 *p, int fd) {
 /* private ================================================================== */
 // -----------------------------------------------------------------------------
 static void
-prvvPutChar (xAx25 *p, uint8_t c) {
+prvvPutChar(xAx25 *p, uint8_t c) {
 
   if (c == HDLC_FLAG || c == HDLC_RESET || c == AX25_ESC) {
 
     prviPutc (AX25_ESC, p->fout);
   }
-  p->crc_out = usCrcCcittUpdate (c, p->crc_out);
+  p->crc_out = usCrcCcittUpdate(c, p->crc_out);
   prviPutc (c, p->fout);
 }
 
 // -----------------------------------------------------------------------------
 static int
-prviSendCall (xAx25 *p, const xAx25Node *n, bool last) {
+prviSendCall(xAx25 *p, const xAx25Node *n, bool last) {
   unsigned len;
 
-  len = MIN (AX25_CALL_LEN, strlen (n->callsign));
+  len = MIN(AX25_CALL_LEN, strlen(n->callsign));
 
   for (unsigned i = 0; i < len; i++) {
 
     uint8_t c = n->callsign[i];
-    if (! (isalnum (c) || c == ' ')) {
+    if (!(isalnum(c) || c == ' ')) {
 
       return prviSetError (p, AX25_ILLEGAL_CALLSIGN);
     }
-    c = toupper (c);
-    prvvPutChar (p, c << 1);
-    PINFO ("%02X", c << 1);
+    c = toupper(c);
+    prvvPutChar(p, c << 1);
+    LOG_PRINT("%02X", c << 1);
   }
 
   /* Fill with spaces the rest of the CALL if it's shorter */
-  if (len < AX25_CALL_LEN) {
+  if (len < AX25_CALL_LEN){
     uint8_t space = ' ' << 1;
 
     for (unsigned i = 0; i < (AX25_CALL_LEN - len); i++) {
 
-      prvvPutChar (p, space);
-      PINFO ("%02X", space);
+      prvvPutChar(p, space);
+      LOG_PRINT("%02X", space);
     }
   }
 
   /* Bits6:5 should be set to 1 for all SSIDs (0x60) */
   /* The bit0 of last call SSID should be set to 1 */
   uint8_t ssid = 0x60 | (n->flag ? 0x80 : 0) | (n->ssid << 1) | (last ? 0x01 : 0);
-  prvvPutChar (p, ssid);
-  PINFO ("-%02X ", ssid);
+  prvvPutChar(p, ssid);
+  LOG_PRINT("-%02X ", ssid);
   return prviSetError (p, AX25_SUCCESS);
 }
 
@@ -720,7 +715,7 @@ prvxExtractCallsign (uint8_t * buf, char * callsign) {
 
   for (uint8_t i = 0; i < AX25_CALL_LEN; i++) {
 
-    char c = ( (*buf) >> 1);
+    char c = ((*buf) >> 1);
     callsign[i] = (c == ' ') ? '\x0' : c;
     buf++;
   }
@@ -729,7 +724,7 @@ prvxExtractCallsign (uint8_t * buf, char * callsign) {
 
 // -----------------------------------------------------------------------------
 static int
-prviDecode (xAx25 *p, xAx25Frame *f) {
+prviDecode(xAx25 *p, xAx25Frame *f) {
   char cs[AX25_CALL_LEN];
   uint8_t *buf;
 
@@ -737,21 +732,21 @@ prviDecode (xAx25 *p, xAx25Frame *f) {
   iAx25FrameClear (f);
 
   buf = prvxExtractCallsign (buf, cs);
-  PDEBUG ("Dst: %c%c%c%c%c%c\n", cs[0], cs[1], cs[2], cs[3], cs[4], cs[5]);
+  LOG_DEBUG("Dst: %c%c%c%c%c%c\n", cs[0],cs[1],cs[2],cs[3],cs[4],cs[5]);
   iAx25FrameSetDst (f, cs, (*buf++ >> 1) & 0x0F);
 
   buf = prvxExtractCallsign (buf, cs);
-  PDEBUG ("Src: %c%c%c%c%c%c\n", cs[0], cs[1], cs[2], cs[3], cs[4], cs[5]);
+  LOG_DEBUG("Src: %c%c%c%c%c%c\n", cs[0],cs[1],cs[2],cs[3],cs[4],cs[5]);
   iAx25FrameSetSrc (f, cs, (*buf >> 1) & 0x0F); // no ++ to test if there are repeaters
 
-  PINFO ("SRC[%.6s-%d], DST[%.6s-%d]\n",  f->src->callsign,
-         f->src->ssid,
-         f->dst->callsign,
-         f->dst->ssid);
+  LOG_INFO("SRC[%.6s-%d], DST[%.6s-%d]\n",  f->src->callsign,
+                                            f->src->ssid,
+                                            f->dst->callsign,
+                                            f->dst->ssid);
 
 
   /* Repeater addresses */
-  for (uint8_t index = 0; ! (*buf++ & 0x01) && (index < AX25_MAX_RPT); index++) {
+  for  (uint8_t index = 0; !(*buf++ & 0x01) && (index < AX25_MAX_RPT); index++) {
 
     buf = prvxExtractCallsign (buf, cs);
     iAx25FrameAddRepeater (f, cs, (*buf >> 1) & 0x0F); // no ++ to test if the repeater was used
@@ -759,29 +754,29 @@ prviDecode (xAx25 *p, xAx25Frame *f) {
     // no ++ to test whether there are still repeaters
     iAx25FrameSetRepeaterFlag (f, index, (*buf & 0x80) ? true : false);
 
-    PINFO ("RPT%d[%.6s-%d]%c\n",  index,
-           f->repeaters[index]->callsign,
-           f->repeaters[index]->ssid,
-           (f->repeaters[index]->flag ? '*' : ' '));
+    LOG_INFO("RPT%d[%.6s-%d]%c\n",  index,
+                                    f->repeaters[index]->callsign,
+                                    f->repeaters[index]->ssid,
+                                   (f->repeaters[index]->flag ? '*' : ' '));
   }
 
   f->ctrl = *buf++;
   if (f->ctrl != AX25_CTRL_UI) {
 
-    PWARNING ("Only UI frames are handled, got [%02X]\n", f->ctrl);
+    LOG_WARN("Only UI frames are handled, got [%02X]\n", f->ctrl);
     return AX25_INVALID_FRAME;
   }
 
   f->pid = *buf++;
   if (f->pid != AX25_PID_NOLAYER3) {
 
-    PWARNING ("Only frames without layer3 protocol are handled, got [%02X]\n", f->pid);
+    LOG_WARN("Only frames without layer3 protocol are handled, got [%02X]\n", f->pid);
     return AX25_INVALID_FRAME;
   }
 
   f->info_len = p->len - 2 - (buf - p->buf);
   memcpy (f->info, buf, f->info_len);
-  PINFO ("DATA: %.*s\n", (int) f->info_len, f->info);
+  LOG_INFO("DATA: %.*s\n", (int)f->info_len, f->info);
 
   // Ready for the next frame
   p->sync = false;
@@ -805,7 +800,7 @@ bAx25Poll (xAx25 *p) {
     return false;
   }
 
-  while ( (p->frm_recv == false) && ( (c = prviGetc (p->fin)) != EOF)) {
+  while ((p->frm_recv == false) && ((c = prviGetc (p->fin)) != EOF)) {
 
     if (!p->escape && c == HDLC_FLAG) {
 
@@ -813,13 +808,13 @@ bAx25Poll (xAx25 *p) {
 
         if (p->crc_in == AX25_CRC_CORRECT) {
 
-          PINFO ("Frame found!\n");
+          LOG_INFO("Frame found!\n");
           p->frm_recv = true;
           break;  // TODO: sortie à éclaircir !!!
         }
         else {
 
-          PINFO ("CRC error, computed [%04X]\n", p->crc_in);
+          LOG_INFO("CRC error, computed [%04X]\n", p->crc_in);
         }
       }
       p->sync = true;
@@ -831,7 +826,7 @@ bAx25Poll (xAx25 *p) {
 
     if (!p->escape && c == HDLC_RESET) {
 
-      PINFO ("HDLC reset\n");
+      LOG_INFO("HDLC reset\n");
       p->sync = false;
       continue;
     }
@@ -847,11 +842,11 @@ bAx25Poll (xAx25 *p) {
       if (p->len < AX25_FRAME_BUF_LEN) {
 
         p->buf[p->len++] = c;
-        p->crc_in = usCrcCcittUpdate (c, p->crc_in);
+        p->crc_in = usCrcCcittUpdate(c, p->crc_in);
       }
       else {
 
-        PINFO ("Buffer overrun");
+        LOG_INFO("Buffer overrun");
         p->sync = false;
       }
     }
@@ -859,10 +854,10 @@ bAx25Poll (xAx25 *p) {
   }
 
 #if AX25_CFG_USE_STREAM
-  if (ferror (p->fin)) {
+  if (ferror(p->fin)) {
 
-    PWARNING ("File error [%04x]\n", ferror (p->fin));
-    clearerr (p->fin);
+    LOG_WARN ("File error [%04x]\n", ferror(p->fin));
+    clearerr(p->fin);
   }
 #endif
 
@@ -891,37 +886,34 @@ iAx25Send (xAx25 *p, const xAx25Frame *f) {
 
   p->crc_out = CRC_CCITT_INIT_VAL;
   prviPutc (HDLC_FLAG, p->fout);
-  PINFO (">%02X ", HDLC_FLAG);
+  LOG_INFO(">%02X ", HDLC_FLAG);
 
   /* Send path */
   iError = prviSendCall (p, f->dst, false);
-  if (iError) {
+  if (iError)
     return iError;
-  }
   iError = prviSendCall (p, f->src, (f->repeaters_len ? false : true));
-  if (iError) {
+  if (iError)
     return iError;
-  }
 
   for (uint8_t i = 0; i < f->repeaters_len; i++) {
 
     iError = prviSendCall (p, f->repeaters[i], (i == f->repeaters_len - 1));
-    if (iError) {
+    if (iError)
       return iError;
-    }
   }
 
-  prvvPutChar (p, f->ctrl);
-  PINFO ("%02X ", f->ctrl);
+  prvvPutChar(p, f->ctrl);
+  LOG_PRINT("%02X ", f->ctrl);
 
-  prvvPutChar (p, f->pid);
-  PINFO ("%02X ", f->pid);
+  prvvPutChar(p, f->pid);
+  LOG_PRINT("%02X ", f->pid);
 
   len = f->info_len;
   while (len--) {
 
-    prvvPutChar (p, *buf);
-    PINFO ("%c", *buf);
+    prvvPutChar(p, *buf);
+    LOG_PRINT("%c", *buf);
     buf++;
   }
 
@@ -931,10 +923,10 @@ iAx25Send (xAx25 *p, const xAx25Frame *f) {
    */
   uint8_t crcl = (p->crc_out & 0xff) ^ 0xff;
   uint8_t crch = (p->crc_out >> 8) ^ 0xff;
-  prvvPutChar (p, crcl);
-  PINFO (" %02X", crcl);
-  prvvPutChar (p, crch);
-  PINFO ("%02X ", crch);
+  prvvPutChar(p, crcl);
+  LOG_PRINT(" %02X", crcl);
+  prvvPutChar(p, crch);
+  LOG_PRINT("%02X ", crch);
 
   if (p->crc_out != AX25_CRC_CORRECT) {
 
@@ -942,7 +934,7 @@ iAx25Send (xAx25 *p, const xAx25Frame *f) {
   }
 
   prviPutc (HDLC_FLAG, p->fout);
-  PINFO ("%02X\n", HDLC_FLAG);
+  LOG_PRINT("%02X\n", HDLC_FLAG);
   return prviSetError (p, AX25_SUCCESS);
 }
 /*
@@ -953,7 +945,7 @@ iAx25Send (xAx25 *p, const xAx25Frame *f) {
 int
 iAx25Read (xAx25 *p, xAx25Frame *f) {
 
-  if ( (!p) || (!f)) {
+  if ((!p) || (!f)) {
 
     return prviError (AX25_OBJECT_NOT_FOUND);
   }

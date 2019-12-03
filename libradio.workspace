@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="libradio" Database="">
+  <Environment>
+    <![CDATA[]]>
+  </Environment>
+  <Project Name="test_pipe" Path="test/pipe/test_pipe.project" Active="No"/>
+  <Project Name="libradio" Path="libradio/radio/libradio.project" Active="No"/>
+  <Project Name="test_crc" Path="test/crc/test_crc.project" Active="No"/>
+  <Project Name="test_serial" Path="test/serial/test_serial.project" Active="No"/>
+  <Project Name="src" Path="src/src.project" Active="No"/>
+  <Project Name="demo_aprs" Path="examples/aprs/demo_aprs.project" Active="No"/>
+  <Project Name="test_ax25_serial" Path="test/ax25/serial/test_ax25_serial.project" Active="No"/>
+  <Project Name="test_ax25_pipe" Path="test/ax25/pipe/test_ax25_pipe.project" Active="No"/>
+  <Project Name="libradiopp" Path="libradio/radio++/libradiopp.project" Active="No"/>
+  <Project Name="test_cpp" Path="test/cpp/test_cpp.project" Active="No"/>
+  <Project Name="demo_ssdv" Path="examples/ssdv/demo_ssdv.project" Active="No"/>
+  <Project Name="test_tnc_pipe" Path="test/tnc/pipe/test_tnc_pipe.project" Active="No"/>
+  <Project Name="test_tnc_cpp" Path="test/tnc/cpp/test_tnc_cpp.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Project Name="test_ax25" ConfigName="Debug"/>
+      <Project Name="test_pipe" ConfigName="Debug"/>
+      <Project Name="libradio" ConfigName="Debug"/>
+      <Project Name="test_crc" ConfigName="Debug"/>
+      <Project Name="test_serial" ConfigName="Debug"/>
+      <Project Name="src" ConfigName="Debug"/>
+      <Project Name="demo_aprs" ConfigName="Debug"/>
+      <Project Name="test_ax25_serial" ConfigName="Debug"/>
+      <Project Name="test_ax25_pipe" ConfigName="Debug"/>
+      <Project Name="libradiopp" ConfigName="Debug"/>
+      <Project Name="test_cpp" ConfigName="Debug"/>
+      <Project Name="demo_ssdv" ConfigName="Debug"/>
+      <Project Name="test_tnc_pipe" ConfigName="Debug"/>
+      <Project Name="test_tnc_cpp" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Project Name="test_ax25" ConfigName="Release"/>
+      <Project Name="test_pipe" ConfigName="Release"/>
+      <Project Name="libradio" ConfigName="Release"/>
+      <Project Name="test_crc" ConfigName="Release"/>
+      <Project Name="test_serial" ConfigName="Release"/>
+      <Project Name="src" ConfigName="Release"/>
+      <Project Name="demo_aprs" ConfigName="Release"/>
+      <Project Name="test_ax25_serial" ConfigName="Release"/>
+      <Project Name="test_ax25_pipe" ConfigName="Release"/>
+      <Project Name="libradiopp" ConfigName="Release"/>
+      <Project Name="test_cpp" ConfigName="Release"/>
+      <Project Name="demo_ssdv" ConfigName="Release"/>
+      <Project Name="test_tnc_pipe" ConfigName="Release"/>
+      <Project Name="test_tnc_cpp" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

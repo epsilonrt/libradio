@@ -1,10 +1,15 @@
 /**
- * @file src/crc.c
+ * @file crc.h
  * @brief Calcul de CRC
- *
- * Copyright © 2015 epsilonRT, All rights reserved.
- * All rights reserved.
- * This software is governed by the CeCILL license <http://www.cecill.info>
+ * @author Francesco Sacchi <batt@develer.com>
+ *          @copyright 2009 GNU General Public License version 2
+ *          See the notice below.
+ * @author Pascal JEAN <pjean@btssn.net>
+ *          @copyright 2014 GNU Lesser General Public License version 3
+ *          <http://www.gnu.org/licenses/lgpl.html>
+ * @version $Id$
+ * Revision History ---
+ *    20120519 - Initial version from BeRTOS
  * -----------------------------------------------------------------------------
  * Bertos is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +37,8 @@
  * Copyright 2009 Develer S.r.l. (http://www.develer.com/)
  */
 
-#include <radio/crc.h>
+#include "radio/crc.h"
+/* ========================================================================== */
 
 /* public variables ========================================================= */
 const uint16_t usCrcCcittTab[256] = {
@@ -73,15 +79,13 @@ const uint16_t usCrcCcittTab[256] = {
 /* internal public functions ================================================ */
 
 // -----------------------------------------------------------------------------
-uint16_t 
-usCrcCcitt (uint16_t usCrc, const void *pvBuf, size_t uLen) {
-  const uint8_t *buf = (const unsigned char *) pvBuf;
-  
-  while (uLen--) {
-    
+uint16_t usCrcCcitt (uint16_t usCrc, const void *pvBuf, size_t uLen)
+{
+  const uint8_t *buf = (const unsigned char *)pvBuf;
+  while (uLen--)
     usCrc = usCrcCcittUpdate (*buf++, usCrc);
-  }
 
   return usCrc;
 }
 /* ========================================================================== */
+

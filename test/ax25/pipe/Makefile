@@ -1,102 +1,87 @@
+# Copyright (c) 2013 Pascal JEAN <pascal.jean@btssn.net>
 ###############################################################################
-# Copyright © 2015 epsilonRT, All rights reserved.                            #
-# This software is governed by the CeCILL license <http://www.cecill.info>    #
+# This program is free software: you can redistribute it and/or modif         #
+#    it under the terms of the GNU Lesser General Public License as published #
+#    by the Free Software Foundation, either version 3 of the License, or     #
+#    (at your option) any later version.                                      #
+#                                                                             #
+#    This program is distributed in the hope that it will be useful,          #
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of           #
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            #
+#    GNU Lesser General Public License for more details.                      #
+#                                                                             #
+#    You should have received a copy of the GNU Lesser General Public License #
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.    #
 ###############################################################################
+# $Id$
 
-# Nom du fichier cible (sans extension).
-TARGET = radio_test_ax25_pipe
+# Target Name (without extension).
+TARGET = test_ax25_pipe
 
-# Chemin relatif du répertoire racine du projet de l'utilisateur
-PROJECT_TOPDIR = .
+# Relative path of the project's root directory
+PROJECT_ROOT = ../../..
 
-# Choix de l'architecture matérielle du système
-#BOARD = BOARD_GENERIC_LINUX
+# Optimization Level =  [0, 1, 2, 3, s].
+#     0 = Reduce compilation time and make debugging produce the expected
+#         results. This is the default.
+#     2 = Optimize even more. GCC performs nearly all supported optimizations
+#         that do not involve a space-speed tradeoff.
+#     s = Optimize for size. -Os enables all -O2 optimizations that do not
+#         typically increase code size. It also performs further optimizations
+#         designed to reduce code size.
+#     (Note: 3 is not always the best level)
+OPT = 2
 
-# Permet de générer un fichier version-git.h permettant de récupérer les informations sur la version
-GIT_VERSION = OFF
+# Debugging format. Leave blank for disable debugging information
+# dwarf-2 is the most expressive format available
+DEBUG = 
 
-# Niveau d'optimisation de GCC =  [0, 1, 2, 3, s].
-#     0 = pas d'optimisation (pour debug).
-#     s = optimisation de la taille du code (pour release).
-#     (Note: 3 n'est pas toujours le meilleur niveau. Voir la FAQ avr-libc.)
-OPT = s
+# C source files (The dependencies are automatically generated.)
+# The path to the source files of the system was added to the search path of
+# the compiler, it is not necessary to specify the full path of the file, but
+# only one from the project root.
+SRC = $(TARGET).c src/crc.c src/ax25.c
 
-# Format informations Debug
-#     Les formats natifs pour AVR-GCC -g sont dwarf-2 [default] ou stabs.
-#     AVR Studio 4.10 nécessite dwarf-2.
-DEBUG_FORMAT = dwarf-2
-
-# Niveau d'optimisation de GCC =  [0, 1, 2, 3, s] pour le debug
-#     0 = pas d'optimisation (pour debug).
-#     s = optimisation de la taille du code (pour release).
-#     (Note: 3 n'est pas toujours le meilleur niveau. Voir la FAQ avr-libc.)
-DEBUG_OPT = 0
-
-# Activation des informations Debug (ON/OFF)
-# Si défini sur ON, aucune information de debug ne sera générée
-#DEBUG = ON
-
-# Affiche la ligne de compilation GCC ou non (ON/OFF)
-VIEW_GCC_LINE = OFF
-
-# Désactive la suppression des variables et fonctions "inutiles"
-# Le linker vérifie d'une fonction ou une variable est appellée, si ce n'est pas
-# le cas, il supprime la variable ou la fonction
-# Cela peut être problèmatique dans certains cas (bootloarder !)
-DISABLE_DELETE_UNUSED_SECTIONS = OFF
-
-# Liste des fichiers source C. (Les dépendances sont automatiquement générées.)
-# Le chemin d'accès des fichiers sources systèmes a été ajouté au chemin de
-# recherche du compilateur, il n'est donc pas nécessaire de préciser le chemin
-# d'accès complet du fichier mais seulement le nom du projet
-SRC  = $(TARGET).c
-
-# Liste des fichiers source C++ (Les dépendances sont automatiquement générées.)
-# Le chemin d'accès des fichiers sources systèmes a été ajouté au chemin de
-# recherche du compilateur, il n'est donc pas nécessaire de préciser le chemin
-# d'accès complet du fichier mais seulement le nom du projet (avrio, avrx, ...)
+# C++ source files (The dependencies are automatically generated.)
+# The path to the source files of the system was added to the search path of
+# the compiler, it is not necessary to specify the full path of the file, but
+# only one from the project root.
 CPPSRC =
 
-# Liste des fichiers source assembleur
-#   L'extenson doit toujours être .S (en majuscule). En effet, les fichiers .s
-#   ne sont pas consédérés comme des fichiers sources mais comme des fichiers
-#   générés par le compilateur et seront supprimés lors d'un make clean.
-#   Cela est valable aussi sous DOS/Windows (bien que le système d'exploitation
-#   ne soit pas sensible à la casse).
-ASRC =
+# Assembler source files
+# The path to the source files of the system was added to the search path of
+# the compiler, it is not necessary to specify the full path of the file, but
+# only one from the project root.
+# The extension  should always be *. S (uppercase). In fact, *. S files are
+# considered  as files generated by the compiler and will be removed in the
+# next  "make clean". This also applies to DOS / Windows (although the operating
+# system is not case sensitive).ASRC =
 
 # Place -D or -U options here for C sources
-CDEFS +=
+CDEFS =
 
 # Place -D or -U options here for ASM sources
-ADEFS +=
+ADEFS =
 
 # Place -D or -U options here for C++ sources
-CPPDEFS +=
-
-# Enable gcc warning (without -W)
-WARNINGS = all strict-prototypes
+CPPDEFS =
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
-EXTRA_INCDIRS =
+EXTRA_INCDIRS = $(PROJECT_ROOT)/src
 
 #---------------- Library Options ----------------
-
-# Enable static link
-STATIC_LINKER = OFF
-
 # List any extra directories to look for libraries here.
 #     Each directory must be seperated by a space.
 #     Use forward slashes for directory separators.
 #     For a directory that has spaces, enclose it in quotes.
 EXTRA_LIBDIRS =
 
-# List any extra libraries here (without lib prefix).
+# List any extra libraries here.
 #     Each library must be seperated by a space.
-EXTRA_LIBS = 
+EXTRA_LIBS =
 
 # Enable link with  mathematics library (ON/OFF)
 MATH_LIB_ENABLE = ON
@@ -106,22 +91,6 @@ MATH_LIB_ENABLE = ON
 #     gnu89 = c89 plus GCC extensions
 #     gnu99 = c99 plus GCC extensions
 CSTANDARD = -std=gnu99
-
-#---------------- Install Options ----------------
-prefix=/usr/local
-INSTALL_BINDIR=$(prefix)/bin
-VERSION=1.0.0
-
-#---------------- SysIO Options ----------------
-# Active le debug d'un test SysIO (ON/OFF)
-# Si défini sur ON, la cible n'est pas liée à la lib sysio et les sources
-# de SysIO sont recompilées. SYSIO_ROOT doit être défini 
-#SYSIO_DEBUG_TEST = ON
-
-ifeq ($(SYSIO_ROOT),)
-SYSIO_ROOT = $(PROJECT_TOPDIR)/../sysio
-endif
-#-----------------------------------------------
 
 #-------------------------------------------------------------------------------
 # Define programs and commands.
@@ -137,6 +106,11 @@ REMOVE = rm -f
 REMOVEDIR = rm -rf
 COPY = cp
 
+
+
+
+
+
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -144,100 +118,10 @@ COPY = cp
 #-------------------------------------------------------------------------------
 # !!!!!!!!!!!!!!!!!         DO NOT EDIT BELOW THIS LINE        !!!!!!!!!!!!!!!!!
 #-------------------------------------------------------------------------------
-$(info Check the target platform, you can use BOARD to force the target...)
-
-HARDWARE_CPU=$(shell hardware-cpu)
-#$(warning '$(HARDWARE_CPU)')
-
-ifneq ($(HARDWARE_CPU),)
-# Hardware found in /proc/cpuinfo ----------------------------------------------
-
-ifeq ($(HARDWARE_CPU),$(filter $(HARDWARE_CPU),bcm2708 bcm2835 bcm2709 bcm2836 bcm2710 bcm2837))
-# Raspberry Pi -----------------------------------------------------------------
-
-RPI_CPU=$(shell rpi-info -c)
-RPI_REV=$(shell rpi-info -r)
-#$(warning $(RPI_CPU))
-#$(warning $(RPI_REV))
-
-$(info Build for Raspberry Pi target !)
-override BOARD = BOARD_RASPBERRYPI
-CDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
-CPPDEFS += -DRPI_CPU=$(RPI_CPU) -DRPI_REV=$(RPI_REV)
-
+ifeq ($(PROJECT_ROOT),)
 else
-# Not Raspberry Pi  ------------------------------------------------------------
-
-ifneq ($(findstring sun8i,$(HARDWARE_CPU)),)
-# Allwinner sunxi  -------------------------------------------------------------
-
-ARMBIAN_BOARD=$(shell armbian-board)
-#$(warning '$(ARMBIAN_BOARD)')
-
-ifeq ($(ARMBIAN_BOARD),nanopineo)
-# NanoPi Neo  ------------------------------------------------------------------
-$(info Build for NanoPi Neo target !)
-override BOARD = BOARD_NANOPI_NEO
-# NanoPi Neo  ------------------------------------------------------------------
-else
-ifeq ($(ARMBIAN_BOARD),nanopiair)
-# NanoPi Neo Air  --------------------------------------------------------------
-$(info Build for NanoPi Neo Air target !)
-override BOARD = BOARD_NANOPI_AIR
-# NanoPi Neo Air  --------------------------------------------------------------
-else
-ifeq ($(ARMBIAN_BOARD),nanopim1)
-# NanoPi M1  -------------------------------------------------------------------
-$(info Build for NanoPi M1 target !)
-override BOARD = BOARD_NANOPI_M1
-# NanoPi M1  -------------------------------------------------------------------
-else
-# Other ArmBian boards  --------------------------------------------------------
-endif
-endif
-endif
-
-# Allwinner sunxi  -------------------------------------------------------------
-endif
-
-# Not Raspberry Pi  ------------------------------------------------------------
-endif
-
-# Hardware found in /proc/cpuinfo ----------------------------------------------
-endif
-
-ifeq ($(BOARD),)
-$(info BOARD not defined, Build for linux standard system...)
-override BOARD = BOARD_GENERIC_LINUX
-endif
-
-#$(warning '$(BOARD)')
-
-CDEFS += -D_REENTRANT -D$(BOARD)
-CPPDEFS += -D_REENTRANT -D$(BOARD)
-
-SYS_HAS_GPS_H=$(shell test-header gps.h)
-ifeq ($(SYS_HAS_GPS_H),ON)
-EXTRA_LIBS += gps
-endif
-
-EXTRA_LIBS += pthread rt
-LDFLAGS += -pthread
-
-ifeq ($(SYSIO_DEBUG_TEST),ON)
-ifeq ($(SYSIO_ROOT),)
-$(error SYSIO_DEBUG_TEST On and SYSIO_ROOT not defined, double-check that !)
-else
-include $(SYSIO_ROOT)/sysio.mk
-endif
-else
-EXTRA_LIBS += sysio
-endif
-
-ifeq ($(PROJECT_TOPDIR),)
-else
-VPATH+=:$(PROJECT_TOPDIR)
-EXTRA_INCDIRS += $(PROJECT_TOPDIR)
+VPATH+=:$(PROJECT_ROOT)
+EXTRA_INCDIRS += $(PROJECT_ROOT)
 endif
 
 #-------------------------------------------------------------------------------
@@ -258,21 +142,19 @@ TARGET_LIB_PATH = $(DESTDIR)/lib$(TARGET)
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-ifeq ($(DEBUG),ON)
-CFLAGS += -g$(DEBUG_FORMAT) -O$(DEBUG_OPT) -DDEBUG
+CFLAGS = -O$(OPT)
+ifeq ($(DEBUG),)
 else
-CFLAGS += -O$(OPT) -DNDEBUG
+CFLAGS += -g$(DEBUG)
 endif
-
 CFLAGS += $(CDEFS)
-CFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/, $*.lst)
-CFLAGS += $(patsubst %,-I%,$(EXTRA_INCDIRS))
-CFLAGS += $(patsubst %,-W%,$(WARNINGS))
-CFLAGS += $(CSTANDARD)
-ifeq ($(DISABLE_DELETE_UNUSED_SECTIONS),OFF)
+CFLAGS += -Wall
+CFLAGS += -Wstrict-prototypes
 CFLAGS += -ffunction-sections
 CFLAGS += -fdata-sections
-endif
+CFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/, $*.lst)
+CFLAGS += $(patsubst %,-I%,$(EXTRA_INCDIRS))
+CFLAGS += $(CSTANDARD)
 
 #---------------- Compiler Options C++ ----------------
 #  -g*:          generate debugging information
@@ -281,21 +163,18 @@ endif
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-ifeq ($(DEBUG),ON)
-CPPFLAGS += -g$(DEBUG_FORMAT) -O$(DEBUG_OPT) -DDEBUG
+CPPFLAGS = -O$(OPT)
+ifeq ($(DEBUG),)
 else
-CPPFLAGS += -O$(OPT) -DNDEBUG
+CFLAGS += -g$(DEBUG)
 endif
-
 CPPFLAGS += $(CPPDEFS)
 CPPFLAGS += -Wall
-CPPFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/, $*.lst)
-CPPFLAGS += $(patsubst %,-I%,$(EXTRA_INCDIRS))
-CPPFLAGS += $(patsubst %,-W%,$(WARNINGS))
-ifeq ($(DISABLE_DELETE_UNUSED_SECTIONS),OFF)
 CPPFLAGS += -ffunction-sections
 CPPFLAGS += -fdata-sections
-endif
+CFLAGS += -Wundef
+CPPFLAGS += -Wa,-adhlns=$(addprefix $(OBJDIR)/, $*.lst)
+CPPFLAGS += $(patsubst %,-I%,$(EXTRA_INCDIRS))
 
 #---------------- Assembler Options ----------------
 #  -Wa,...:   tell GCC to pass this to the assembler.
@@ -321,20 +200,16 @@ endif
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-ifeq ($(STATIC_LINKER),ON)
-LDFLAGS += -static
-endif
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
 LDFLAGS += $(MATH_LIB)
 LDFLAGS += -Wl,-Map=$(TARGET_PATH).map,--cref
 LDFLAGS += $(EXTMEMOPTS)
-ifeq ($(DISABLE_DELETE_UNUSED_SECTIONS),OFF)
 LDFLAGS += -Wl,--gc-sections
-endif
 LDFLAGS += -Wl,--relax
-ifeq ($(DEBUG),ON)
-LD_CFLAGS += -g$(DEBUG_FORMAT)
+ifeq ($(DEBUG),)
+else
+LDFLAGS += -g
 endif
 
 
@@ -349,8 +224,6 @@ MSG_CLEANING = [CLEAN]\t\t
 MSG_EXTENDED_LISTING = [LISTING]\t
 MSG_SYMBOL_TABLE = [SYMBOL]\t
 MSG_SIZE = [SIZE]
-MSG_INSTALL = [INSTALL]
-MSG_UNINSTALL = [UNINSTALL]
 
 # Define all object files.
 OBJ = $(addprefix $(OBJDIR)/, $(SRC:%.c=%.o) $(CPPSRC:%.cpp=%.o) $(ASRC:%.S=%.o))
@@ -366,36 +239,20 @@ DEPDIRS := $(addsuffix .dep, $(OBJDIRS))
 ALL_CFLAGS = -I. $(CFLAGS) $(GENDEPFLAGS)
 ALL_CPPFLAGS = -I. -x c++ $(CPPFLAGS)  $(GENDEPFLAGS)
 ALL_ASFLAGS = -I. -x assembler-with-cpp $(ASFLAGS)
-#
-
-ifeq ($(VIEW_GCC_LINE),ON)
-else
-CC := @$(CC)
-OBJCOPY := @$(OBJCOPY)
-OBJDUMP := @$(OBJDUMP)
-endif
-
+LD_CFLAGS = -g$(DEBUG)
 
 # Default target.
-all: build sizeafter cleanver
+all: build sizeafter
 build: elf lss sym
 rebuild: sizebefore clean_list build sizeafter
 clean: clean_list
 distclean: distclean_list clean_list
 
-install: uninstall build
-	@echo "$(MSG_INSTALL) $(TARGET)"
-	-install -m 0755 TARGET $(INSTALL_BINDIR)
-
-uninstall:
-	@echo "$(MSG_UNINSTALL) $(TARGET)"
-	-rm -f $(INSTALL_BINDIR)/$(TARGET)
-
-elf: version-git.h $(TARGET)
+elf: $(TARGET)
 lss: $(TARGET_PATH).lss
 sym: $(TARGET_PATH).sym
 
-lib: version-git.h $(TARGET_LIB_PATH).a
+lib: $(TARGET_LIB_PATH).a
 cleanlib: clean_list_lib
 rebuildlib: clean_list_lib $(TARGET_LIB_PATH).a
 distcleanlib: distclean_list clean_list_lib
@@ -413,16 +270,6 @@ $(OBJDIRS):
 $(DEPDIRS):
 	@-$(MAKEDIR) $@
 
-version-git.h:
-ifeq ($(GIT_VERSION),ON)
-	@sysio-ver $@
-endif
-
-version-git.mk:
-ifeq ($(GIT_VERSION),ON)
-	@sysio-ver $@
-endif
-
 sizebefore:
 	@if test -f $(TARGET); then echo "$(MSG_SIZE)"; $(SIZE) $(TARGET); 2>/dev/null; fi
 
@@ -430,11 +277,6 @@ sizeafter:
 	@if test -f $(TARGET); then echo "$(MSG_SIZE)"; $(SIZE) $(TARGET); 2>/dev/null; fi
 
 size: sizebefore
-
-cleanver:
-ifeq ($(GIT_VERSION),ON)
-	@test -s .version || $(REMOVE) version-git.h .version
-endif
 
 # Create extended listing file from ELF output file.
 %.lss: $(TARGET)
@@ -447,52 +289,48 @@ endif
 	@$(NM) -n $< > $@
 
 # Create library from object files.
-.SECONDARY : $(TARGET_LIB_PATH).a $(TARGET_LIB_PATH).so
+.SECONDARY : $(TARGET_LIB_PATH).a
 .PRECIOUS : $(OBJ)
 %.a: $(OBJ)
 	@echo "$(MSG_CREATING_LIBRARY) $@"
 	@$(AR) $@ $(OBJ)
 
-%.so: $(OBJ)
-	@echo "$(MSG_CREATING_LIBRARY) $@"
-	$(CC) -shared $^ -o $@
-
 # Link: create ELF output file from object files.
 $(TARGET): $(OBJ)
 	@echo "$(MSG_LINKING) $@"
-	$(CC) $(LD_CFLAGS) $^ --output $@ $(LDFLAGS)
+	@$(CC) $(LD_CFLAGS) $^ --output $@ $(LDFLAGS)
 
 # Compile: create object files from C source files.
 $(OBJDIR)/%.o : %.c Makefile
 	@echo "$(MSG_COMPILING) $<"
-	$(CC) -c $(ALL_CFLAGS) -fPIC $< -o $@
+	@$(CC) -c $(ALL_CFLAGS) $< -o $@
 
 
 # Compile: create object files from C++ source files.
 $(OBJDIR)/%.o : %.cpp Makefile
 	@echo "$(MSG_COMPILING_CPP) $<"
-	$(CC) -c $(ALL_CPPFLAGS) $< -o $@
+	@$(CC) -c $(ALL_CPPFLAGS) $< -o $@
 
 
 # Compile: create assembler files from C source files.
 %.s : %.c
-	$(CC) -S $(ALL_CFLAGS) $< -o $@
+	@$(CC) -S $(ALL_CFLAGS) $< -o $@
 
 
 # Compile: create assembler files from C++ source files.
 %.s : %.cpp
-	$(CC) -S $(ALL_CPPFLAGS) $< -o $@
+	@$(CC) -S $(ALL_CPPFLAGS) $< -o $@
 
 
 # Assemble: create object files from assembler source files.
 $(OBJDIR)/%.o : %.S Makefile
 	@echo "$(MSG_ASSEMBLING) $<"
-	$(CC) -c $(ALL_ASFLAGS) $< -o $@
+	@$(CC) -c $(ALL_ASFLAGS) $< -o $@
 
 
 # Create preprocessed source for use in sending a bug report.
 %.i : %.c
-	$(CC) -E -mmcu=$(MCU) -I. $(CFLAGS) $< -o $@
+	@$(CC) -E -mmcu=$(MCU) -I. $(CFLAGS) $< -o $@
 
 clean_list_lib:
 	@echo "$(MSG_CLEANING) $(TARGET)"
@@ -510,9 +348,6 @@ clean_list :
 distclean_list :
 	@$(REMOVE) *.bak
 	@$(REMOVE) *~
-ifeq ($(GIT_VERSION),ON)
-	@$(REMOVE) version-git.h version-git.mk .version
-endif
 
 # Listing of phony targets.
 .PHONY : all size sizebefore sizeafter build rebuild lib elf \
